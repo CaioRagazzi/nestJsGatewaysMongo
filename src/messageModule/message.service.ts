@@ -14,6 +14,12 @@ export class MessageService {
   }
 
   async findAll(): Promise<Message[]> {
-    return this.messageModel.find().limit(10).sort({_id: -1}).exec();
+    this.messageModel.watch().on('change', (data) => {
+      console.log(data);
+    })
+    const messages = this.messageModel.find().limit(10).sort({ _id: -1 }).exec();
+    console.log(messages);
+
+    return messages;
   }
 }
